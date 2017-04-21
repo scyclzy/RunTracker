@@ -29,7 +29,7 @@ public class LocationReceiver extends BroadcastReceiver {
 	}
 
 	protected void onLocationReceived(Context context, Location loc) {
-		Log.d(TAG, this + "Got location from " + loc.getProvider() + ": "
+		Log.d(TAG, this + " Got location from " + loc.getProvider() + ": "
 				+ loc.getLatitude() + ", " + loc.getLongitude());
 		return ;
 	}
