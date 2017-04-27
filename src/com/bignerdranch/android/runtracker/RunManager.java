@@ -113,6 +113,19 @@ public class RunManager {
 		return mHelper.queryRuns();
 	}
 	
+	public Run getRun(long id) {
+		Run run = null;
+		RunCursor cursor = mHelper.queryRun(id);
+		cursor.moveToFirst();
+		// If you got a row, get a run
+		if(!cursor.isAfterLast()) {
+			run = cursor.getRun();
+		}
+		cursor.close();
+		return run;
+	}
+	
+	
 	public void insertLocation(Location loc) {
 		if(mCurrentRunId != -1) {
 			mHelper.insertLocation(mCurrentRunId, loc);
@@ -131,5 +144,9 @@ public class RunManager {
 	
 	public boolean isTrackingRun() {
 		return getLocationPendingIntent(false) != null;
+	}
+
+	public boolean isTrackingRun(Run run) {
+		return mCurrentRunId == run.getId();
 	}
 }

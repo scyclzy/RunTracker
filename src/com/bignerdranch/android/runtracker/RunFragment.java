@@ -23,6 +23,9 @@ public class RunFragment extends Fragment {
 		@Override
 		protected void onLocationReceived(Context context, Location loc) {
 			super.onLocationReceived(context, loc);
+			if(!mRunManager.isTrackingRun(mRun)) {
+				return ;
+			}
 			mLastLocation = loc;
 			if(isVisible()) {
 				updateUI();
@@ -59,6 +62,15 @@ public class RunFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		mRunManager = RunManager.get(getActivity());
+		
+		// Check for a Run ID as an argument, and find the run
+		Bundle args = getArguments();
+		if(args != null) {
+			long runId = args.getLong(ARG_RUN_ID, -1);
+			if(runId != -1) {
+				mRun = mRunManager.getRun(runId);
+			}
+		}
 	}
 
 	@Override
@@ -77,7 +89,11 @@ public class RunFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				mRun = mRunManager.startNewRun();
+				if(mRun == null) {
+					mRun = mRunManager.startNewRun();
+				} else {
+					mRunManager.startTrackingRun(mRun);
+				}
 				updateUI();
 			}
 		});
@@ -110,6 +126,7 @@ public class RunFragment extends Fragment {
 
 	private void updateUI() {
 		boolean started = mRunManager.isTrackingRun();
+		boolean trackingThisRun = mRunManager.isTrackingRun(mRun);
 		
 		if(mRun != null) {
 			mStartedTextView.setText(mRun.getStartDate().toString());
@@ -125,6 +142,6 @@ public class RunFragment extends Fragment {
 		mDurationTextView.setText(Run.formatDuration(durationSeconds));
 		
 		mStartButton.setEnabled(!started);
-		mStopButton.setEnabled(started);
+		mStopButton.setEnabled(started && trackingThisRun);
 	}
 }

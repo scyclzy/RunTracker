@@ -67,7 +67,7 @@ public class RunListFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		// The id argment will be the Run ID; CursorAdapter gives us this for free
+		// The id argument will be the Run ID; CursorAdapter gives us this for free
 		Intent i = new Intent(getActivity(), RunActivity.class);
 		i.putExtra(RunActivity.EXTRA_RUN_ID, id);
 		startActivity(i);
