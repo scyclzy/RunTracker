@@ -34,11 +34,11 @@ public class RunDatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// Create the "run" table
 		db.execSQL("create table run (" + 
-			"_id integer primary key autoincrement, start_date integer");
+			"_id integer primary key autoincrement, start_date integer)");
 		// Create the "location" table
 		db.execSQL("create table location (" + 
 			"timestamp integer, latitude real, longitude real, altitude real," +
-			"provider varchar(100), run_id integer references run(_id)");
+			"provider varchar(100), run_id integer references run(_id))");
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class RunDatabaseHelper extends SQLiteOpenHelper {
 	public RunCursor queryRuns() {
 		// Equivalent to "select * from run order by start_date asc"
 		Cursor wrapped = getReadableDatabase().query(TABLE_RUN,
-				null, null, null, null, null, COLUMN_RUN_START_DATE + "asc");
+				null, null, null, null, null, COLUMN_RUN_START_DATE + " asc");
 		return new RunCursor(wrapped);
 	}
 	
