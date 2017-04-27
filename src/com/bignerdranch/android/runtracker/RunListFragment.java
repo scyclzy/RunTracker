@@ -21,6 +21,9 @@ public class RunListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 		// Query the list of runs
 		mCursor = RunManager.get(getActivity()).queryRuns();
+		// Create an adapter to point at this cursor
+		RunCursorAdapter adapter = new RunCursorAdapter(getActivity(), mCursor);
+		setListAdapter(adapter);
 	}
 
 	@Override
