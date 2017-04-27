@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
 
+import com.bignerdranch.android.runtracker.RunDatabaseHelper.LocationCursor;
 import com.bignerdranch.android.runtracker.RunDatabaseHelper.RunCursor;
 
 public class RunManager {
@@ -125,6 +126,17 @@ public class RunManager {
 		return run;
 	}
 	
+	public Location getLastLocationForRun(long runId) {
+		Location location = null;
+		LocationCursor cursor = mHelper.queryLastLocationForRun(runId);
+		cursor.moveToFirst();
+		// If you got a row, get a location
+		if(!cursor.isAfterLast()) {
+			location = cursor.getLocation();
+		}
+		cursor.close();
+		return location;
+	}
 	
 	public void insertLocation(Location loc) {
 		if(mCurrentRunId != -1) {
