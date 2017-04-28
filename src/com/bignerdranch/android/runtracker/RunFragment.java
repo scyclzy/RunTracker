@@ -133,9 +133,10 @@ public class RunFragment extends Fragment {
 
 	private void updateUI() {
 		boolean started = mRunManager.isTrackingRun();
-		boolean trackingThisRun = mRunManager.isTrackingRun(mRun);
+		boolean trackingThisRun = false;
 		
 		if(mRun != null) {
+			trackingThisRun = mRunManager.isTrackingRun(mRun);
 			mStartedTextView.setText(mRun.getStartDate().toString());
 		}
 		
